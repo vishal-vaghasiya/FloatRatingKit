@@ -27,6 +27,9 @@ final class DemoViewController: UIViewController {
         ratingView.emptyImage =
             UIImage(systemName: "star")
 
+        ratingView.halfImage =
+            UIImage(systemName: "star.leadinghalf.filled")
+
         ratingView.fullImage =
             UIImage(systemName: "star.fill")
 

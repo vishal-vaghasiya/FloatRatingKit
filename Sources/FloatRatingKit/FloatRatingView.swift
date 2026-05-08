@@ -33,6 +33,9 @@ open class FloatRatingView: UIView {
         }
     }
 
+    @IBInspectable
+    open var halfImage: UIImage?
+
     open var imageContentMode: UIView.ContentMode = .scaleAspectFit
 
     // MARK: - Rating
@@ -158,28 +161,43 @@ open class FloatRatingView: UIView {
 
             if rating >= Double(i + 1) {
 
+                imageView.image = fullImage
                 imageView.layer.mask = nil
                 imageView.isHidden = false
 
             } else if rating > Double(i),
                       rating < Double(i + 1) {
 
-                let maskLayer = CALayer()
-
-                maskLayer.frame = CGRect(
-                    x: 0,
-                    y: 0,
-                    width: CGFloat(rating - Double(i)) * imageView.frame.width,
-                    height: imageView.frame.height
-                )
-
-                maskLayer.backgroundColor = UIColor.black.cgColor
-
-                imageView.layer.mask = maskLayer
+                imageView.layer.mask = nil
                 imageView.isHidden = false
+
+                if type == .halfRatings,
+                   rating - Double(i) >= 0.5,
+                   let halfImage {
+
+                    imageView.image = halfImage
+
+                } else {
+
+                    imageView.image = fullImage
+
+                    let maskLayer = CALayer()
+
+                    maskLayer.frame = CGRect(
+                        x: 0,
+                        y: 0,
+                        width: CGFloat(rating - Double(i)) * imageView.frame.width,
+                        height: imageView.frame.height
+                    )
+
+                    maskLayer.backgroundColor = UIColor.black.cgColor
+
+                    imageView.layer.mask = maskLayer
+                }
 
             } else {
 
+                imageView.image = fullImage
                 imageView.layer.mask = nil
                 imageView.isHidden = true
             }
